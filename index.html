@@ -479,18 +479,12 @@ $('#toc').on('click', 'a', function() {
 
 <p>Apply the following configuration to your Gradle project build file:</p>
 
-<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">buildscript</span> <span class="p">{</span>
-    <span class="nf">repositories</span> <span class="p">{</span>
-        <span class="nf">jcenter</span><span class="p">()</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nf">plugins</span> <span class="p">{</span>
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">plugins</span> <span class="p">{</span>
     <span class="nf">id</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt"</span><span class="p">).</span><span class="nf">version</span><span class="p">(</span><span class="s">"1.16.0"</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="nf">repositories</span> <span class="p">{</span>
-    <span class="nf">jcenter</span><span class="p">()</span>
+    <span class="nf">mavenCentral</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -561,7 +555,7 @@ which can be easily added to the gradle configuration:</p>
             <div class="row">
                 <div class="col-lg-12 footer">
                &copy;2021 The detekt Team. All rights reserved. <br />
- Site last generated: Apr 10, 2021 <br />
+ Site last generated: May 1, 2021 <br />
                 </div>
             </div>
 </footer>
