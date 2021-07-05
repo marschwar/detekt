@@ -10,6 +10,7 @@ import io.gitlab.arturbosch.detekt.cli.runners.ConfigExporter
 import io.gitlab.arturbosch.detekt.cli.runners.Runner
 import io.gitlab.arturbosch.detekt.cli.runners.VersionPrinter
 
+/** Some comment */
 class CliRunner : DetektCli {
 
     override fun run(args: Array<String>): AnalysisResult = run(args, System.out, System.err)
