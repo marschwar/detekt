@@ -19,7 +19,7 @@ class KtCompilerSpec : Spek({
         val path = resourceAsPath("/cases")
         val ktCompiler by memoized(CachingMode.SCOPE) { KtCompiler() }
 
-        it("Kotlin file with LF line separators has extra user data") {
+        it("Kotlin file with LF line separators has extra user data stuff") {
             val ktFile = ktCompiler.compile(path, path.resolve("DefaultLf.kt"))
 
             assertThat(ktFile.getUserData(LINE_SEPARATOR)).isEqualTo("\n")
