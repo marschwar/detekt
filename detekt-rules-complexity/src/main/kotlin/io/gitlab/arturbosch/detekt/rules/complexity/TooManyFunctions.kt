@@ -52,7 +52,7 @@ class TooManyFunctions(config: Config = Config.empty) : Rule(config) {
     private val thresholdInObjects: Int by config(DEFAULT_THRESHOLD)
 
     @Configuration("threshold in enums")
-    private val thresholdInEnums: Int by config(DEFAULT_THRESHOLD)
+    private val thresholdInEnums: Int by config(12)
 
     @Configuration("ignore deprecated functions")
     private val ignoreDeprecated: Boolean by config(false)
