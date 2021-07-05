@@ -15,7 +15,7 @@ internal class AnalysisResultSpec : Spek({
             assertThat(DefaultAnalysisResult(EmptyContainer, null).exitCode()).isEqualTo(0)
         }
 
-        it("returns one on any UnexpectedError") {
+        it("returns 1 on any UnexpectedError") {
             val unexpectedError = UnexpectedError(IllegalArgumentException())
             assertThat(DefaultAnalysisResult(null, unexpectedError).exitCode()).isEqualTo(1)
         }
