@@ -6,7 +6,7 @@ import org.spekframework.spek2.Spek
 
 class CliRunnerSpec : Spek({
 
-    test("cli module provides an implementation of DetektCli") {
+    test("cli module provides an implementation of Detekt-Cli") {
         assertThat(DetektCli.load()).isInstanceOf(CliRunner::class.java)
     }
 })
