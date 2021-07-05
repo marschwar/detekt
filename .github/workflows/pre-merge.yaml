@@ -3,7 +3,7 @@ name: Pre Merge Checks
 on:
   push:
     branches:
-      - main
+      - gradle-cache-test
   pull_request:
     branches:
       - '**'
