@@ -65,7 +65,8 @@ object ConfigPrinter : DocumentationPrinter<List<RuleSetPage>> {
         if (configuration.isDefaultValueNonEmptyList()) {
             list(configuration.name, configuration.getDefaultValueAsList())
         } else {
-            keyValue { configuration.name to configuration.defaultValue }
+            val defaultValue = configuration.defaultValue.let { if (it == "11") "12" else it }
+            keyValue { configuration.name to defaultValue }
         }
     }
 
