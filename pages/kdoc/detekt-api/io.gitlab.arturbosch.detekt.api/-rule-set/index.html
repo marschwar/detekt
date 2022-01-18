@@ -19,7 +19,7 @@
 <!-- most color styles are extracted out to here -->
 <link rel="stylesheet" href="/detekt/css/theme-blue.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="/detekt/js/jquery.navgoco.min.js"></script>
@@ -28,7 +28,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Anchor.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js"></script>
 <script src="/detekt/js/toc.js"></script>
 <script src="/detekt/js/customscripts.js"></script>
 
@@ -212,6 +212,13 @@
           
           
           
+          <li><a href="/detekt/compose.html">Configuration for Compose</a></li>
+          
+          
+          
+          
+          
+          
           <li><a href="/detekt/reporting.html">Reporting</a></li>
           
           
@@ -227,6 +234,13 @@
           
           
           <li><a href="/detekt/baseline.html">Suppressing Issues via Baseline File</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/detekt/suppressors.html">Suppressing Issues via Suppressors</a></li>
           
           
           
@@ -502,7 +516,7 @@ class <a href="index.html">RuleSet</a>(id: <a href="../index.html#-2041591616%2F
   <tbody>
     <tr>
       <td><a href="accept.html">accept</a></td>
-      <td>[jvm]<br /><del>fun</del> <a href="accept.html"><del>accept</del></a><del>(</del><del>file</del><del>:</del> KtFile<del>,</del> <del>bindingContext</del><del>:</del> BindingContext <del>= BindingContext.EMPTY</del><del>)</del><del>:</del> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../-finding/index.html">Finding</a>&gt;<br />Visits given file with all rules of this rule set, returning a list of all code smell findings.</td>
+      <td>[jvm]<br /><del>fun</del> <a href="accept.html"><del>accept</del></a><del>(</del><del>file</del><del>:</del> KtFile<del>,</del> <del>bindingContext</del><del>:</del> BindingContext <del>=</del> <del>BindingContext.EMPTY</del><del>)</del><del>:</del> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../-finding/index.html">Finding</a>&gt;<br />Visits given file with all rules of this rule set, returning a list of all code smell findings.</td>
     </tr>
   </tbody>
 </table>
@@ -523,7 +537,7 @@ class <a href="index.html">RuleSet</a>(id: <a href="../index.html#-2041591616%2F
     </tr>
     <tr>
       <td><a href="path-filters.html">pathFilters</a></td>
-      <td>[jvm]<br /><del>var</del> <a href="path-filters.html"><del>pathFilters</del></a><del>:</del> <a href="../../io.gitlab.arturbosch.detekt.api.internal/-path-filters/index.html">PathFilters</a>? <del>= null</del><br />Is used to determine if a given KtFile should be analyzed at all.</td>
+      <td>[jvm]<br /><del>var</del> <a href="path-filters.html"><del>pathFilters</del></a><del>:</del> <a href="../../io.gitlab.arturbosch.detekt.api.internal/-path-filters/index.html">PathFilters</a>? <del>=</del> <del>null</del><br />Is used to determine if a given KtFile should be analyzed at all.</td>
     </tr>
     <tr>
       <td><a href="rules.html">rules</a></td>
@@ -548,8 +562,8 @@ class <a href="index.html">RuleSet</a>(id: <a href="../index.html#-2041591616%2F
 <footer>
             <div class="row">
                 <div class="col-lg-12 footer">
-               &copy;2021 The detekt Team. All rights reserved. <br />
- Site last generated: Nov 11, 2021 <br />
+               &copy;2022 The detekt Team. All rights reserved. <br />
+ Site last generated: Jan 18, 2022 <br />
                 </div>
             </div>
 </footer>

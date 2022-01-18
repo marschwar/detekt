@@ -19,7 +19,7 @@
 <!-- most color styles are extracted out to here -->
 <link rel="stylesheet" href="/detekt/css/theme-blue.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="/detekt/js/jquery.navgoco.min.js"></script>
@@ -28,7 +28,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Anchor.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js"></script>
 <script src="/detekt/js/toc.js"></script>
 <script src="/detekt/js/customscripts.js"></script>
 
@@ -212,6 +212,13 @@
           
           
           
+          <li><a href="/detekt/compose.html">Configuration for Compose</a></li>
+          
+          
+          
+          
+          
+          
           <li><a href="/detekt/reporting.html">Reporting</a></li>
           
           
@@ -227,6 +234,13 @@
           
           
           <li><a href="/detekt/baseline.html">Suppressing Issues via Baseline File</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/detekt/suppressors.html">Suppressing Issues via Suppressors</a></li>
           
           
           
@@ -472,10 +486,16 @@ $('#toc').on('click', 'a', function() {
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">detekt</code> - Runs a detekt analysis and complexity report on your source files. Configure the analysis inside the 
-<code class="language-plaintext highlighter-rouge">detekt</code> closure. By default the standard rule set without any ignore list is executed on sources files located
- in <code class="language-plaintext highlighter-rouge">src/main/java</code>, <code class="language-plaintext highlighter-rouge">src/test/java</code>, <code class="language-plaintext highlighter-rouge">src/main/kotlin</code> and <code class="language-plaintext highlighter-rouge">src/test/kotlin</code>. Reports are automatically generated in xml,
- html, txt, and sarif format and can be found in <code class="language-plaintext highlighter-rouge">build/reports/detekt/detekt.[xml|html|txt|sarif]</code> respectively.
- Please note that the <code class="language-plaintext highlighter-rouge">detekt</code> task is automatically run when executing <code class="language-plaintext highlighter-rouge">gradle check</code>.</li>
+<code class="language-plaintext highlighter-rouge">detekt</code> closure.
+    <ul>
+      <li>By default, the standard rule set without any ignore list is executed on sources files located
+ in <code class="language-plaintext highlighter-rouge">src/main/java</code>, <code class="language-plaintext highlighter-rouge">src/test/java</code>, <code class="language-plaintext highlighter-rouge">src/main/kotlin</code> and <code class="language-plaintext highlighter-rouge">src/test/kotlin</code>.</li>
+      <li>Reports are automatically generated in xml,
+ html, txt, and sarif format and can be found in <code class="language-plaintext highlighter-rouge">build/reports/detekt/detekt.[xml|html|txt|sarif]</code> respectively.</li>
+      <li>Please note that the <code class="language-plaintext highlighter-rouge">detekt</code> task is automatically run when executing <code class="language-plaintext highlighter-rouge">gradle check</code>.</li>
+      <li>You may specify Gradle task CLI option for auto correction, such as <code class="language-plaintext highlighter-rouge">gradle detekt --auto-correct</code>.</li>
+    </ul>
+  </li>
   <li><code class="language-plaintext highlighter-rouge">detektGenerateConfig</code> - Generates a default detekt configuration file into your project directory.</li>
   <li><code class="language-plaintext highlighter-rouge">detektBaseline</code> - Similar to <code class="language-plaintext highlighter-rouge">detekt</code>, but creates a code smell baseline. Further detekt runs will only feature new smells not in this list.</li>
 </ul>
@@ -520,7 +540,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <h4 id="groovy-dsl">Groovy DSL</h4>
 
 <div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plugins</span> <span class="o">{</span>
-    <span class="n">id</span> <span class="s2">"io.gitlab.arturbosch.detekt"</span> <span class="n">version</span> <span class="s2">"1.19.0-RC1"</span>
+    <span class="n">id</span> <span class="s2">"io.gitlab.arturbosch.detekt"</span> <span class="n">version</span> <span class="s2">"1.19.0"</span>
 <span class="o">}</span>
 
 <span class="n">repositories</span> <span class="o">{</span>
@@ -531,7 +551,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <h4 id="kotlin-dsl">Kotlin DSL</h4>
 
 <div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">plugins</span> <span class="p">{</span>
-    <span class="nf">id</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt"</span><span class="p">).</span><span class="nf">version</span><span class="p">(</span><span class="s">"1.19.0-RC1"</span><span class="p">)</span>
+    <span class="nf">id</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt"</span><span class="p">).</span><span class="nf">version</span><span class="p">(</span><span class="s">"1.19.0"</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="nf">repositories</span> <span class="p">{</span>
@@ -548,7 +568,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
         <span class="n">gradlePluginPortal</span><span class="o">()</span>
     <span class="o">}</span>
     <span class="n">dependencies</span> <span class="o">{</span>
-        <span class="n">classpath</span> <span class="s2">"io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0-RC1"</span>
+        <span class="n">classpath</span> <span class="s2">"io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
@@ -566,7 +586,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
         <span class="nf">gradlePluginPortal</span><span class="p">()</span>
     <span class="p">}</span>
     <span class="nf">dependencies</span> <span class="p">{</span>
-        <span class="nf">classpath</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0-RC1"</span><span class="p">)</span>
+        <span class="nf">classpath</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -599,7 +619,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <span class="n">plugins</span> <span class="o">{</span>
     <span class="n">id</span> <span class="s2">"com.android.application"</span>
     <span class="n">id</span> <span class="s2">"org.jetbrains.kotlin.android"</span> <span class="n">version</span> <span class="s2">"&lt;kotlin_version&gt;"</span>
-    <span class="n">id</span> <span class="s2">"io.gitlab.arturbosch.detekt"</span> <span class="n">version</span> <span class="s2">"1.19.0-RC1"</span>
+    <span class="n">id</span> <span class="s2">"io.gitlab.arturbosch.detekt"</span> <span class="n">version</span> <span class="s2">"1.19.0"</span>
 <span class="o">}</span>
 
 <span class="n">repositories</span> <span class="o">{</span>
@@ -623,7 +643,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <span class="nf">plugins</span> <span class="p">{</span>
     <span class="nf">id</span><span class="p">(</span><span class="s">"com.android.application"</span><span class="p">)</span>
     <span class="nf">kotlin</span><span class="p">(</span><span class="s">"android"</span><span class="p">)</span> <span class="n">version</span> <span class="s">"&lt;kotlin_version&gt;"</span>
-    <span class="nf">id</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt"</span><span class="p">)</span> <span class="n">version</span> <span class="s">"1.19.0-RC1"</span>
+    <span class="nf">id</span><span class="p">(</span><span class="s">"io.gitlab.arturbosch.detekt"</span><span class="p">)</span> <span class="n">version</span> <span class="s">"1.19.0"</span>
 <span class="p">}</span>
 
 <span class="nf">repositories</span> <span class="p">{</span>
@@ -638,7 +658,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">detekt</span> <span class="o">{</span>
     <span class="c1">// Version of Detekt that will be used. When unspecified the latest detekt</span>
     <span class="c1">// version found will be used. Override to stay on the same version.</span>
-    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">"1.19.0-RC1"</span>
+    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">"1.19.0"</span>
     
     <span class="c1">// The directories where detekt looks for source files. </span>
     <span class="c1">// Defaults to `files("src/main/java", "src/test/java", "src/main/kotlin", "src/test/kotlin")`.</span>
@@ -687,34 +707,6 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
     <span class="c1">// Specify the base path for file paths in the formatted reports. </span>
     <span class="c1">// If not set, all file paths reported will be absolute file path.</span>
     <span class="n">basePath</span> <span class="o">=</span> <span class="n">projectDir</span>
-    
-    <span class="n">reports</span> <span class="o">{</span>
-        <span class="c1">// Enable/Disable XML report (default: true)</span>
-        <span class="n">xml</span> <span class="o">{</span>
-            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>                                
-            <span class="n">destination</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"build/reports/detekt/detekt.xml"</span><span class="o">)</span>
-        <span class="o">}</span>
-        <span class="c1">// Enable/Disable HTML report (default: true)</span>
-        <span class="n">html</span> <span class="o">{</span>
-            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
-            <span class="n">destination</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"build/reports/detekt/detekt.html"</span><span class="o">)</span>
-        <span class="o">}</span>
-        <span class="c1">// Enable/Disable TXT report (default: true)</span>
-        <span class="n">txt</span> <span class="o">{</span>
-            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>                                
-            <span class="n">destination</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"build/reports/detekt/detekt.txt"</span><span class="o">)</span>
-        <span class="o">}</span>
-        <span class="c1">// Enable/Disable SARIF report (default: false)</span>
-        <span class="n">sarif</span> <span class="o">{</span>
-            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>                                
-            <span class="n">destination</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"build/reports/detekt/detekt.sarif"</span><span class="o">)</span>
-        <span class="o">}</span>
-        <span class="n">custom</span> <span class="o">{</span>
-            <span class="c1">// The simple class name of your custom report.</span>
-            <span class="n">reportId</span> <span class="o">=</span> <span class="s2">"CustomJsonReport"</span>                   
-            <span class="n">destination</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"build/reports/detekt.json"</span><span class="o">)</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
@@ -723,7 +715,7 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
 <div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">detekt</span> <span class="p">{</span>
     <span class="c1">// Version of Detekt that will be used. When unspecified the latest detekt</span>
     <span class="c1">// version found will be used. Override to stay on the same version.</span>
-    <span class="n">toolVersion</span> <span class="p">=</span> <span class="s">"1.19.0-RC1"</span>
+    <span class="n">toolVersion</span> <span class="p">=</span> <span class="s">"1.19.0"</span>
     
     <span class="c1">// The directories where detekt looks for source files. </span>
     <span class="c1">// Defaults to `files("src/main/java", "src/test/java", "src/main/kotlin", "src/test/kotlin")`.</span>
@@ -769,32 +761,35 @@ using the detekt closure as described <a href="#closure">here</a>.</p>
     <span class="c1">// Specify the base path for file paths in the formatted reports. </span>
     <span class="c1">// If not set, all file paths reported will be absolute file path.</span>
     <span class="n">basePath</span> <span class="p">=</span> <span class="n">projectDir</span>
-    
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="reports">Reports</h3>
+
+<p>Report output can be customized for each task. The DSL is the same in both Groovy and Kotlin:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span><span class="p">.</span><span class="nf">named</span><span class="p">(</span><span class="s">"detekt"</span><span class="p">).</span><span class="nf">configure</span> <span class="p">{</span>
     <span class="nf">reports</span> <span class="p">{</span>
         <span class="c1">// Enable/Disable XML report (default: true)</span>
-        <span class="nf">xml</span> <span class="p">{</span>
-            <span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span>
-            <span class="n">destination</span> <span class="p">=</span> <span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt/detekt.xml"</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="n">xml</span><span class="p">.</span><span class="n">required</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="n">xml</span><span class="p">.</span><span class="n">outputLocation</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.xml"</span><span class="p">))</span>
+
         <span class="c1">// Enable/Disable HTML report (default: true)</span>
-        <span class="nf">html</span> <span class="p">{</span>
-            <span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span>
-            <span class="n">destination</span> <span class="p">=</span> <span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt/detekt.html"</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="n">html</span><span class="p">.</span><span class="n">required</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="n">html</span><span class="p">.</span><span class="n">outputLocation</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.html"</span><span class="p">))</span>
+
         <span class="c1">// Enable/Disable TXT report (default: true)</span>
-        <span class="nf">txt</span> <span class="p">{</span>
-            <span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span>
-            <span class="n">destination</span> <span class="p">=</span> <span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt/detekt.txt"</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="n">txt</span><span class="p">.</span><span class="n">required</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="n">txt</span><span class="p">.</span><span class="n">outputLocation</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.txt"</span><span class="p">))</span>
+
         <span class="c1">// Enable/Disable SARIF report (default: false)</span>
-        <span class="nf">sarif</span> <span class="p">{</span>
-            <span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span>                                
-            <span class="n">destination</span> <span class="p">=</span> <span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt/detekt.sarif"</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="n">sarif</span><span class="p">.</span><span class="n">required</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="n">sarif</span><span class="p">.</span><span class="n">outputLocation</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.sarif"</span><span class="p">))</span>
+
         <span class="nf">custom</span> <span class="p">{</span>
             <span class="c1">// The simple class name of your custom report.</span>
             <span class="n">reportId</span> <span class="p">=</span> <span class="s">"CustomJsonReport"</span>
-            <span class="n">destination</span> <span class="p">=</span> <span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.json"</span><span class="p">)</span>
+            <span class="n">outputLocation</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nf">file</span><span class="p">(</span><span class="s">"build/reports/detekt.json"</span><span class="p">))</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -812,12 +807,17 @@ or when implementing a custom detekt task with the <code class="language-plainte
 <div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span><span class="o">.</span><span class="na">withType</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="na">gitlab</span><span class="o">.</span><span class="na">arturbosch</span><span class="o">.</span><span class="na">detekt</span><span class="o">.</span><span class="na">Detekt</span><span class="o">).</span><span class="na">configureEach</span> <span class="o">{</span>
     <span class="n">jvmTarget</span> <span class="o">=</span> <span class="s2">"1.8"</span>
 <span class="o">}</span>
+<span class="n">tasks</span><span class="o">.</span><span class="na">withType</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="na">gitlab</span><span class="o">.</span><span class="na">arturbosch</span><span class="o">.</span><span class="na">detekt</span><span class="o">.</span><span class="na">DetektCreateBaselineTask</span><span class="o">).</span><span class="na">configureEach</span> <span class="o">{</span>
+    <span class="n">jvmTarget</span> <span class="o">=</span> <span class="s2">"1.8"</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
 <h4 id="kotlin-dsl-4">Kotlin DSL</h4>
 
 <div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span><span class="p">.</span><span class="n">withType</span><span class="p">&lt;</span><span class="n">io</span><span class="p">.</span><span class="n">gitlab</span><span class="p">.</span><span class="n">arturbosch</span><span class="p">.</span><span class="n">detekt</span><span class="p">.</span><span class="nc">Detekt</span><span class="p">&gt;().</span><span class="nf">configureEach</span> <span class="p">{</span>
-    <span class="c1">// Target version of the generated JVM bytecode. It is used for type resolution.</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">jvmTarget</span> <span class="p">=</span> <span class="s">"1.8"</span>
+<span class="p">}</span>
+<span class="n">tasks</span><span class="p">.</span><span class="n">withType</span><span class="p">&lt;</span><span class="n">io</span><span class="p">.</span><span class="n">gitlab</span><span class="p">.</span><span class="n">arturbosch</span><span class="p">.</span><span class="n">detekt</span><span class="p">.</span><span class="nc">DetektCreateBaselineTask</span><span class="p">&gt;().</span><span class="nf">configureEach</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="n">jvmTarget</span> <span class="p">=</span> <span class="s">"1.8"</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -944,8 +944,8 @@ exclude detekt from the check task.</p>
 <footer>
             <div class="row">
                 <div class="col-lg-12 footer">
-               &copy;2021 The detekt Team. All rights reserved. <br />
- Site last generated: Nov 11, 2021 <br />
+               &copy;2022 The detekt Team. All rights reserved. <br />
+ Site last generated: Jan 18, 2022 <br />
                 </div>
             </div>
 </footer>

@@ -19,7 +19,7 @@
 <!-- most color styles are extracted out to here -->
 <link rel="stylesheet" href="/detekt/css/theme-blue.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="/detekt/js/jquery.navgoco.min.js"></script>
@@ -28,7 +28,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Anchor.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js"></script>
 <script src="/detekt/js/toc.js"></script>
 <script src="/detekt/js/customscripts.js"></script>
 
@@ -212,6 +212,13 @@
           
           
           
+          <li><a href="/detekt/compose.html">Configuration for Compose</a></li>
+          
+          
+          
+          
+          
+          
           <li><a href="/detekt/reporting.html">Reporting</a></li>
           
           
@@ -227,6 +234,13 @@
           
           
           <li><a href="/detekt/baseline.html">Suppressing Issues via Baseline File</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/detekt/suppressors.html">Suppressing Issues via Suppressors</a></li>
           
           
           
@@ -464,20 +478,39 @@ $('#toc').on('click', 'a', function() {
 
     
 
-  <h4 id="1190-rc1---2021-10-31">1.19.0-RC1 - 2021-10-31</h4>
+  <h4 id="unreleased">UNRELEASED</h4>
+
+<ul>
+  <li>Now the rule authors can define the default configuration for their rules. More information <a href="LINK_PENDIING!!">here</a>. <a href="https://github.com/detekt/detekt/pull/4315">#4315</a></li>
+</ul>
+
+<h4 id="1190---2021-11-29">1.19.0 - 2021-11-29</h4>
+
+<p>Please welcome the next upcoming stable release of Detekt: <code class="language-plaintext highlighter-rouge">1.19.0</code> 🎉
+This release is coming with a lot of new features, new rules, evolution in the API and stability improvements.</p>
+
+<p>Specifically, we’ve shipped some features that will allow you to better adapt detekt to run on codebases
+that are using JetPack compose with features such as <a href="https://detekt.github.io/detekt/suppressors.html"><code class="language-plaintext highlighter-rouge">ignoreAnnotated</code> and <code class="language-plaintext highlighter-rouge">ignoreFunction</code></a>.</p>
+
+<p>As always, we want to take the opportunity to thank our contributors for testing, bug reporting and helping
+us release this new version of Detekt. You’re more than welcome to join our community on the <a href="https://kotlinlang.slack.com/archives/C88E12QH4">#detekt</a> channel on KotlinLang’s Slack (you can <a href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up">get an invite here</a>).</p>
 
 <h5 id="notable-changes">Notable Changes</h5>
 
 <ul>
-  <li>We now offer an <code class="language-plaintext highlighter-rouge">ignoreAnnotated</code> configuration key that you can use on all your rules to suppress findings if inside an annotated block (e.g. <code class="language-plaintext highlighter-rouge">@Composable</code>) - <a href="https://github.com/detekt/detekt/pull/4102">#4102</a></li>
+  <li>We now offer an <code class="language-plaintext highlighter-rouge">ignoreAnnotated</code> configuration key that you can use on all your rules to suppress findings if inside an annotated block (e.g. <code class="language-plaintext highlighter-rouge">@Composable</code>) - <a href="https://github.com/detekt/detekt/pull/4102">#4102</a> and <a href="https://github.com/detekt/detekt/pull/4241">#4241</a></li>
+  <li>Similarly, we now offer also an <code class="language-plaintext highlighter-rouge">ignoreFunction</code> configuration key that you can use to suppress findings if inside a function with a given name - <a href="https://github.com/detekt/detekt/pull/4148">#4148</a></li>
   <li>Report configuration is changing in the Gradle plugin. The <code class="language-plaintext highlighter-rouge">reports</code> extension on the <code class="language-plaintext highlighter-rouge">detekt</code> extension has been
 deprecated. See the Migration section below for steps to migrate to the new recommended configuration - <a href="https://github.com/detekt/detekt/pull/3687">#3687</a></li>
   <li>The <code class="language-plaintext highlighter-rouge">ExplicitCollectionElementAccessMethod</code> rule is now a type-resolution only rule - <a href="https://github.com/detekt/detekt/pull/4201">#4201</a></li>
   <li>The <code class="language-plaintext highlighter-rouge">InvalidPackageDeclaration</code> rule has been split to create the <code class="language-plaintext highlighter-rouge">MissingPackageDeclaration</code> rule - <a href="https://github.com/detekt/detekt/pull/4149">#4149</a></li>
   <li>The <code class="language-plaintext highlighter-rouge">ForbiddenComment</code> rule now offers a <code class="language-plaintext highlighter-rouge">customMessage</code> configuration key - <a href="https://github.com/detekt/detekt/pull/4126">#4126</a></li>
   <li>We bumped ktlint and updated the default enabled rules to mirror what ktlint is doing - <a href="https://github.com/detekt/detekt/pull/4179">#4179</a></li>
-  <li>Add a new ConsoleReport format - <a href="https://github.com/detekt/detekt/pull/4027">#4027</a></li>
-  <li>Gradle: We removed the <code class="language-plaintext highlighter-rouge">afterEvaluate</code> wrapper from the Android and KMM plugin - <a href="https://github.com/detekt/detekt/pull/4159">#4159</a></li>
+  <li>Added a new <code class="language-plaintext highlighter-rouge">LambdaParameterNaming</code> rule, to enforce a naming convention of parameter inside lambdas - <a href="https://github.com/detekt/detekt/pull/4147">#4147</a></li>
+  <li>Added a new <code class="language-plaintext highlighter-rouge">InjectDispatcher</code> rule, to check if dispatchers are injectable - <a href="https://github.com/detekt/detekt/pull/4222">#4222</a></li>
+  <li>Added a new <code class="language-plaintext highlighter-rouge">ConsoleReport</code> format - <a href="https://github.com/detekt/detekt/pull/4027">#4027</a></li>
+  <li>Gradle: We added the <code class="language-plaintext highlighter-rouge">--auto-correct</code> cmdline option to gradle tasks - <a href="https://github.com/detekt/detekt/pull/4202">#4202</a></li>
+  <li>Gradle: We removed the <code class="language-plaintext highlighter-rouge">afterEvaluate</code> wrapper from the Android and KMM plugin - <a href="https://github.com/detekt/detekt/pull/4159">#4159</a> and <a href="https://github.com/detekt/detekt/pull/4271">#4271</a></li>
   <li>We now test against Java 17 and stopped testing against Java 16 - <a href="https://github.com/detekt/detekt/pull/4136">#4136</a></li>
   <li>Remove library specific configurations like Jetpack Compose and Dagger from the default config - <a href="https://github.com/detekt/detekt/pull/4101">#4101</a></li>
   <li>Remove detekt-bom module - <a href="https://github.com/detekt/detekt/pull/4043">#4043</a></li>
@@ -534,6 +567,27 @@ and disable reports for all tasks using the <code class="language-plaintext high
 <h5 id="changelog">Changelog</h5>
 
 <ul>
+  <li>trim values when parsing the baseline - <a href="https://github.com/detekt/detekt/pull/4335">#4335</a></li>
+  <li>Fix #4332 by widening the scope to all JDKs - <a href="https://github.com/detekt/detekt/pull/4333">#4333</a></li>
+  <li>Bugfix provided by #4225 needs wider scope - <a href="https://github.com/detekt/detekt/issues/4332">#4332</a></li>
+  <li>Avoid false positives in MemberNameEqualsClassName - <a href="https://github.com/detekt/detekt/pull/4329">#4329</a></li>
+  <li>Add two new config steps for Compose - <a href="https://github.com/detekt/detekt/pull/4322">#4322</a></li>
+  <li>Set DetektJvm task source with SourceDirectorySet instead of file list - <a href="https://github.com/detekt/detekt/pull/4151">#4151</a></li>
+  <li>Add documentation about how to configure Baseline task with type resolution - <a href="https://github.com/detekt/detekt/pull/4285">#4285</a></li>
+  <li>Remove kotlin-gradle-plugin-api from runtime classpath - <a href="https://github.com/detekt/detekt/pull/4275">#4275</a></li>
+  <li>Use appropriate annotations on source properties in Gradle tasks - <a href="https://github.com/detekt/detekt/pull/4264">#4264</a></li>
+  <li>Replace usage of deprecated ConfigureUtil - <a href="https://github.com/detekt/detekt/pull/4263">#4263</a></li>
+  <li>Fix test failure of ReportMergeSpec - <a href="https://github.com/detekt/detekt/pull/4262">#4262</a></li>
+  <li>Revert “Remove afterEvaluate wrapper (#4159)” - <a href="https://github.com/detekt/detekt/pull/4259">#4259</a></li>
+  <li>ExplicitCollectionElementAccessMethodSpec: does not report methods that is called on implicit receiver - <a href="https://github.com/detekt/detekt/pull/4256">#4256</a></li>
+  <li>UnusedPrivateMember: fix false positive with operator <code class="language-plaintext highlighter-rouge">in</code> - <a href="https://github.com/detekt/detekt/pull/4249">#4249</a></li>
+  <li>Introduce UseAnyOrNoneInsteadOfFind rule - <a href="https://github.com/detekt/detekt/pull/4247">#4247</a></li>
+  <li>OptionalWhenBraces: fix false negative for nested when - <a href="https://github.com/detekt/detekt/pull/4246">#4246</a></li>
+  <li>Handle MultiRules in Suppressors - <a href="https://github.com/detekt/detekt/pull/4239">#4239</a></li>
+  <li>Fix UselessCallOnNotNull rule - <a href="https://github.com/detekt/detekt/pull/4237">#4237</a></li>
+  <li>Make detekt a bit less noisy when mixing java and kotlin files - <a href="https://github.com/detekt/detekt/pull/4231">#4231</a></li>
+  <li>Workaround for JDK 8 instability when reading config - <a href="https://github.com/detekt/detekt/pull/4225">#4225</a></li>
+  <li>Define FunctionSignature - <a href="https://github.com/detekt/detekt/pull/4176">#4176</a></li>
   <li>ForbiddenMethodCall: report overriding method calls - <a href="https://github.com/detekt/detekt/pull/4205">#4205</a></li>
   <li>ObjectLiteralToLambda: fix false positive when using Java interfaces with default methods - <a href="https://github.com/detekt/detekt/pull/4203">#4203</a></li>
   <li>Unit tests for TooGenericExceptionThrown - <a href="https://github.com/detekt/detekt/pull/4198">#4198</a></li>
@@ -566,6 +620,15 @@ and disable reports for all tasks using the <code class="language-plaintext high
 <h5 id="dependency-updates">Dependency Updates</h5>
 
 <ul>
+  <li>Update dependency org.jetbrains.kotlinx:kotlinx-coroutines-core to v1.5.2 - <a href="https://github.com/detekt/detekt/pull/4302">#4302</a></li>
+  <li>Update dependency io.mockk:mockk to v1.12.1 - <a href="https://github.com/detekt/detekt/pull/4297">#4297</a></li>
+  <li>Update dependency com.android.tools.build:gradle to v4.2.2 - <a href="https://github.com/detekt/detekt/pull/4296">#4296</a></li>
+  <li>Gradle Publishing Plugin 0.17.0 - <a href="https://github.com/detekt/detekt/pull/4270">#4270</a></li>
+  <li>Shadow 7.1.0 - <a href="https://github.com/detekt/detekt/pull/4269">#4269</a></li>
+  <li>Dokka 1.5.31 - <a href="https://github.com/detekt/detekt/pull/4268">#4268</a></li>
+  <li>Binary Compatibility Validator 0.8.0 - <a href="https://github.com/detekt/detekt/pull/4267">#4267</a></li>
+  <li>Reflections 0.10.2 - <a href="https://github.com/detekt/detekt/pull/4266">#4266</a></li>
+  <li>Upgrade to Gradle 7.3 - <a href="https://github.com/detekt/detekt/pull/4254">#4254</a></li>
   <li>Dokka 1.5.30 - <a href="https://github.com/detekt/detekt/pull/4114">#4114</a></li>
   <li>Kotlin 1.5.31 - <a href="https://github.com/detekt/detekt/pull/4113">#4113</a></li>
   <li>Update dependencies - <a href="https://github.com/detekt/detekt/pull/4065">#4065</a></li>
@@ -574,6 +637,24 @@ and disable reports for all tasks using the <code class="language-plaintext high
 <h5 id="housekeeping--refactorings">Housekeeping &amp; Refactorings</h5>
 
 <ul>
+  <li>Simplify YamlConfig - <a href="https://github.com/detekt/detekt/pull/4316">#4316</a></li>
+  <li>Move tests to the correct module - <a href="https://github.com/detekt/detekt/pull/4314">#4314</a></li>
+  <li>Don’t hide null issues - <a href="https://github.com/detekt/detekt/pull/4313">#4313</a></li>
+  <li>Add functional test for type resolution for JVM - <a href="https://github.com/detekt/detekt/pull/4307">#4307</a></li>
+  <li>Minor typo fix and code refactoring - <a href="https://github.com/detekt/detekt/pull/4284">#4284</a></li>
+  <li>Improve Tests of UnnecesaryLet - <a href="https://github.com/detekt/detekt/pull/4282">#4282</a></li>
+  <li>Fix typo in UnnecessaryLet - <a href="https://github.com/detekt/detekt/pull/4281">#4281</a></li>
+  <li>Fix typo in Gradle lib definition - <a href="https://github.com/detekt/detekt/pull/4255">#4255</a></li>
+  <li>Rename DoubleMutabilityInCollectionSpec to DoubleMutabilityForCollectionSpec - <a href="https://github.com/detekt/detekt/pull/4251">#4251</a></li>
+  <li>Simplify conditional checks to improve coverage - <a href="https://github.com/detekt/detekt/pull/4221">#4221</a></li>
+  <li>Refactor NoTabs to remove DetektVisitor - <a href="https://github.com/detekt/detekt/pull/4220">#4220</a></li>
+  <li>Fix typos and grammar in rule descriptions - <a href="https://github.com/detekt/detekt/pull/4219">#4219</a></li>
+  <li>Use Kotlin’s ArrayDeque implementation - <a href="https://github.com/detekt/detekt/pull/4218">#4218</a></li>
+  <li>Update Kotlin docs URL - <a href="https://github.com/detekt/detekt/pull/4217">#4217</a></li>
+  <li>Report UntilInsteadOfRangeTo for ‘rangeTo’ calls - <a href="https://github.com/detekt/detekt/pull/4212">#4212</a></li>
+  <li>Add tests for merging reports - <a href="https://github.com/detekt/detekt/pull/4199">#4199</a></li>
+  <li>Setup Gradle functional tests - <a href="https://github.com/detekt/detekt/pull/4074">#4074</a></li>
+  <li>GitHub Actions cache fixes - <a href="https://github.com/detekt/detekt/pull/3723">#3723</a></li>
   <li>Simplify where casts used unnecessarily - <a href="https://github.com/detekt/detekt/pull/4213">#4213</a></li>
   <li>Don’t specify Gradle Enterprise Gradle Plugin version - <a href="https://github.com/detekt/detekt/pull/4210">#4210</a></li>
   <li>Fix baserule import in tests - <a href="https://github.com/detekt/detekt/pull/4189">#4189</a></li>
@@ -2728,8 +2809,8 @@ This change lead to increasing the threshold to 15 (was ten).</li>
 <footer>
             <div class="row">
                 <div class="col-lg-12 footer">
-               &copy;2021 The detekt Team. All rights reserved. <br />
- Site last generated: Nov 11, 2021 <br />
+               &copy;2022 The detekt Team. All rights reserved. <br />
+ Site last generated: Jan 18, 2022 <br />
                 </div>
             </div>
 </footer>
