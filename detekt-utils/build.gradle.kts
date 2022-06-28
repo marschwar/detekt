@@ -3,5 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.snakeyaml)
+
     testImplementation(libs.assertj)
 }

@@ -1,3 +1,11 @@
+build:
+  maxIssues: 3
+  weights:
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
+
 comments:
   CommentOverPrivateProperty:
     active: true
@@ -36,17 +44,6 @@ complexity:
     active: true
   TooManyFunctions:
     excludes: ['**/test/**', '**/functionalTest/**']
-
-coroutines:
-  active: true
-  GlobalCoroutineUsage:
-    active: true
-  RedundantSuspendModifier:
-    active: true
-  SleepInsteadOfDelay:
-    active: true
-  SuspendFunWithFlowReturnType:
-    active: true
 
 exceptions:
   InstanceOfCheckForException:
