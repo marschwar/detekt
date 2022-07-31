@@ -320,6 +320,7 @@ private fun isSuppressedBy(annotation: String, argument: String): Boolean {
     return annotatedClass.isSuppressedBy("Test", setOf("alias"))
 }
 
+@Suppress("DEPRECATION")
 private class AMultiRule(config: Config) : MultiRule() {
     override val rules: List<Rule> = listOf(TestLPL(config))
 }

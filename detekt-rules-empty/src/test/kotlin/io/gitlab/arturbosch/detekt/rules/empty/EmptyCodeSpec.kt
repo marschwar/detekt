@@ -12,63 +12,8 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.util.regex.PatternSyntaxException
 
-private const val ALLOWED_EXCEPTION_NAME_REGEX = "allowedExceptionNameRegex"
 
 class EmptyCodeSpec {
-
-    val regexTestingCode = """
-            fun f() {
-                try {
-                } catch (foo: Exception) {
-                }
-            }
-    """
-
-    @Test
-    fun `findsEmptyCatch`() {
-        test { EmptyCatchBlock(Config.empty) }
-    }
-
-    @Test
-    fun `findsEmptyNestedCatch`() {
-        val code = """
-        fun f() {
-            try {
-            } catch (ignore: Exception) {
-                try {
-                } catch (e: Exception) {
-                }
-            }
-        }
-        """
-        assertThat(EmptyCatchBlock(Config.empty).compileAndLint(code)).hasSize(1)
-    }
-
-    @Test
-    fun `doesNotReportIgnoredOrExpectedException`() {
-        val code = """
-        fun f() {
-            try {
-            } catch (ignore: IllegalArgumentException) {
-            } catch (expected: Exception) {
-            }
-        }
-        """
-        assertThat(EmptyCatchBlock(Config.empty).compileAndLint(code)).isEmpty()
-    }
-
-    @Test
-    fun `doesNotReportEmptyCatchWithConfig`() {
-        val code = """
-        fun f() {
-            try {
-            } catch (foo: Exception) {
-            }
-        }
-        """
-        val config = TestConfig(mapOf(ALLOWED_EXCEPTION_NAME_REGEX to "foo"))
-        assertThat(EmptyCatchBlock(config).compileAndLint(code)).isEmpty()
-    }
 
     @Test
     fun `findsEmptyFinally`() {
@@ -128,25 +73,6 @@ class EmptyCodeSpec {
     @Test
     fun `findsOneEmptySecondaryConstructor`() {
         test { EmptySecondaryConstructor(Config.empty) }
-    }
-
-    @Test
-    fun `doesNotFailWithInvalidRegexWhenDisabled`() {
-        val configValues = mapOf(
-            "active" to "false",
-            ALLOWED_EXCEPTION_NAME_REGEX to "*foo"
-        )
-        val config = TestConfig(configValues)
-        assertThat(EmptyCatchBlock(config).compileAndLint(regexTestingCode)).isEmpty()
-    }
-
-    @Test
-    fun `doesFailWithInvalidRegex`() {
-        val configValues = mapOf(ALLOWED_EXCEPTION_NAME_REGEX to "*foo")
-        val config = TestConfig(configValues)
-        assertThatExceptionOfType(PatternSyntaxException::class.java).isThrownBy {
-            EmptyCatchBlock(config).compileAndLint(regexTestingCode)
-        }
     }
 }
 

@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.psi.KtCatchClause
  * by using the specified names in the `allowedExceptionNameRegex`.
  */
 @ActiveByDefault(since = "1.0.0")
-class EmptyCatchBlock(config: Config) : EmptyRule(
+class EmptyCatchBlock(config: Config = Config.empty) : EmptyRule(
     config = config,
     description =
     "Empty catch block detected. " +

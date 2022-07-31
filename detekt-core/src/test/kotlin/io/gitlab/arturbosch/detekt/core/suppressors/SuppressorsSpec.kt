@@ -79,6 +79,7 @@ class SuppressorsSpec {
     }
 }
 
+@Suppress("DEPRECATION")
 private class AMultiRule(config: Config) : MultiRule() {
     override val rules: List<Rule> = listOf(ARule(config))
 }
