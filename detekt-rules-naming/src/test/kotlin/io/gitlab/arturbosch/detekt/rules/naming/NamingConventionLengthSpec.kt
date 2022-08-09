@@ -29,29 +29,6 @@ class NamingConventionLengthSpec {
         assertThat(subject.findings).isEmpty()
     }
 
-    @Nested
-    inner class `VariableMinLength rule with a custom minimum length` {
-
-        val variableMinLength =
-            VariableMinLength(TestConfig(mapOf(VariableMinLength.MINIMUM_VARIABLE_NAME_LENGTH to "2")))
-
-        @Test
-        fun `reports a very short variable name`() {
-            val code = "private val a = 3"
-            assertThat(variableMinLength.compileAndLint(code)).hasSize(1)
-        }
-
-        @Test
-        fun `does not report a variable with only a single underscore`() {
-            val code = """
-                class C {
-                    val prop: (Int) -> Unit = { _ -> Unit }
-            }
-            """
-            assertThat(variableMinLength.compileAndLint(code)).isEmpty()
-        }
-    }
-
     @Test
     fun `should not report a variable with 64 letters`() {
         val subject = NamingRules()

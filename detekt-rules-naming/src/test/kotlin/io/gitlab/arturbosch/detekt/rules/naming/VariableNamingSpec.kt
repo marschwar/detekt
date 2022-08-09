@@ -28,10 +28,12 @@ class VariableNamingSpec {
     @Test
     fun `checks all negative cases`() {
         val code = """
+            data class D(val i: Int, val j: Int)
             class C {
                 private val _field = 5
                 val field get() = _field
                 val camelCaseProperty = 5
+                val (_, HOLY_GRAIL) = D(5, 4)
             }
         """
         assertThat(VariableNaming().compileAndLint(code)).isEmpty()
