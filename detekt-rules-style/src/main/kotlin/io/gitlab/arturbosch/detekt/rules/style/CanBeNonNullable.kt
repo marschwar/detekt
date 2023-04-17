@@ -35,6 +35,7 @@ import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtNullableType
 import org.jetbrains.kotlin.psi.KtParameter
+import org.jetbrains.kotlin.psi.KtParenthesizedExpression
 import org.jetbrains.kotlin.psi.KtPostfixExpression
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPropertyAccessor
@@ -332,6 +333,7 @@ class CanBeNonNullable(config: Config = Config.empty) : Rule(config) {
             return when (this) {
                 is KtBinaryExpression -> evaluateBinaryExpression()
                 is KtIsExpression -> evaluateIsExpression()
+                is KtParenthesizedExpression -> expression?.getNonNullChecks()
                 else -> null
             }
         }
@@ -368,8 +370,10 @@ class CanBeNonNullable(config: Config = Config.empty) : Rule(config) {
             }
 
             // Recursively iterate into the if-check if possible
-            leftExpression.getNonNullChecks()?.let(nonNullChecks::addAll)
-            rightExpression.getNonNullChecks()?.let(nonNullChecks::addAll)
+            if (operationToken == KtTokens.ANDAND) {
+                leftExpression.getNonNullChecks()?.let(nonNullChecks::addAll)
+                rightExpression.getNonNullChecks()?.let(nonNullChecks::addAll)
+            }
             return nonNullChecks
         }
 

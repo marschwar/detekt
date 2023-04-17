@@ -9,6 +9,7 @@ import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 
 @KotlinCoreEnvironmentTest
 class CanBeNonNullableSpec(val env: KotlinCoreEnvironment) {
@@ -1316,7 +1317,7 @@ class CanBeNonNullableSpec(val env: KotlinCoreEnvironment) {
             }
 
             @Test
-            fun `does report when the parameter is only checked on non-nullity with multiple clauses`() {
+            fun `does report when the parameter is only checked on non-nullity with multiple clauses with and operator`() {
                 val code = """
                     fun foo(a: Int?, other: Int) {
                         if (a != null && other % 2 == 0) {
@@ -1325,6 +1326,54 @@ class CanBeNonNullableSpec(val env: KotlinCoreEnvironment) {
                     }
                 """.trimIndent()
                 assertThat(subject.compileAndLintWithContext(env, code)).hasSize(1)
+            }
+
+            @Test
+            fun `does report when the parameter is only checked on non-nullity with multiple clauses with and operator with parentesis`() {
+                val code = """
+                    fun foo(a: Int?, other: Int) {
+                        if ((a != null) && (other % 2 == 0)) {
+                            println(a + 5)
+                        }
+                    }
+                """.trimIndent()
+                assertThat(subject.compileAndLintWithContext(env, code)).hasSize(1)
+            }
+
+            @Test
+            fun `does not report when the parameter is only checked on non-nullity with multiple clauses with or operator`() {
+                val code = """
+                    fun foo(a: Int?, other: Int) {
+                        if (a != null || other % 2 == 0) {
+                            println(other + 5)
+                        }
+                    }
+                """.trimIndent()
+                assertThat(subject.compileAndLintWithContext(env, code)).isEmpty()
+            }
+
+            @Test
+            fun `does not report when the parameter is only checked on non-nullity with both and and or operators`() {
+                val code = """
+                    fun foo(a: Int?, other: Int) {
+                        if (other % 3 == 0 && a != null || other % 2 == 0) {
+                            println(other + 5)
+                        }
+                    }
+                """.trimIndent()
+                assertThat(subject.compileAndLintWithContext(env, code)).isEmpty()
+            }
+
+            @Test
+            fun `does not report when the parameter is only checked on non-nullity with xor operators`() {
+                val code = """
+                    fun foo(a: Int?, other: Int) {
+                        if ((a != null) xor (other % 2 == 0)) {
+                            println(other + 5)
+                        }
+                    }
+                """.trimIndent()
+                assertThat(subject.compileAndLintWithContext(env, code)).isEmpty()
             }
 
             @Test
