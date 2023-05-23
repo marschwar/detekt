@@ -646,13 +646,14 @@ class RuleCollectorSpec {
                     @Configuration("description")
                     private val noValues by config(valuesWithReason())
                     @Configuration("description")
-                    private val multipleValues by config(valuesWithReason("a" to "A and A", "b" to "B and B"))
+                    private val multipleValues by config(valuesWithReason("a" to "A and A", "b" to "B and B", "c" to null))
                     @Configuration("description")
                     private val multipleLines
                         by config(valuesWithReason(
                             "a" to "A " +
                                 "and A",
-                            "b" to ""${"\""}B and B""${"\""}))
+                            "b" to ""${"\""}B and B""${"\""}, "c" 
+                            to null))
                     
                     companion object {
                         private val DEFAULT_VALUE = valuesWithReason("value" to "reason")
@@ -691,7 +692,8 @@ class RuleCollectorSpec {
                 val expected = of(
                     valuesWithReason(
                         "a" to "A and A",
-                        "b" to "B and B"
+                        "b" to "B and B",
+                        "c" to null
                     )
                 )
                 assertThat(configs)

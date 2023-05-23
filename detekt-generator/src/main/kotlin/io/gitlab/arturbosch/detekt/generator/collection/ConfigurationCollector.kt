@@ -1,6 +1,5 @@
 package io.gitlab.arturbosch.detekt.generator.collection
 
-import io.gitlab.arturbosch.detekt.api.ValueWithReason
 import io.gitlab.arturbosch.detekt.api.valuesWithReason
 import io.gitlab.arturbosch.detekt.generator.collection.ConfigurationCollector.ConfigWithAndroidVariantsSupport.ANDROID_VARIANTS_DELEGATE_NAME
 import io.gitlab.arturbosch.detekt.generator.collection.ConfigurationCollector.ConfigWithAndroidVariantsSupport.DEFAULT_ANDROID_VALUE_ARGUMENT_NAME
@@ -191,7 +190,7 @@ class ConfigurationCollector {
             return getValuesWithReasonDeclarationOrNull()
                 ?.valueArguments
                 ?.map(::toValueWithReason)
-                ?.let { DefaultValue.of(valuesWithReason(it)) }
+                ?.let { DefaultValue.of(valuesWithReason(*it.toTypedArray())) }
         }
 
         fun KtElement.getValuesWithReasonDeclarationOrNull(): KtCallExpression? =
@@ -204,15 +203,14 @@ class ConfigurationCollector {
         fun KtProperty.hasValuesWithReasonDeclaration(): Boolean =
             anyDescendantOfType<KtCallExpression> { it.isValuesWithReasonDeclaration() }
 
-        private fun toValueWithReason(arg: KtValueArgument): ValueWithReason {
+        private fun toValueWithReason(arg: KtValueArgument): Pair<String, String?> {
             val keyToValue = arg.children.first() as? KtBinaryExpression
             return keyToValue?.let {
-                ValueWithReason(
-                    value = it.left?.text?.withoutQuotes()
-                        ?: error("left side of value with reason argument is null"),
-                    reason = it.right?.text?.withoutQuotes()
-                        ?: error("right side of value with reason argument is null")
-                )
+                val value =
+                    it.left?.text?.withoutQuotes() ?: error("left side of value with reason argument is null")
+                val reason =
+                    it.right?.text?.withoutQuotes()?.let { right -> if (right == "null") null else right }
+                value to reason
             } ?: error("invalid value argument '${arg.text}'")
         }
     }

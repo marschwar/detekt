@@ -14,17 +14,7 @@ package io.gitlab.arturbosch.detekt.api
  * Note that the [config] property delegate only supports the factory methods when defining [ValuesWithReason].
  */
 fun valuesWithReason(vararg values: Pair<String, String?>): ValuesWithReason {
-    return valuesWithReason(values.map { ValueWithReason(it.first, it.second) })
-}
-
-/**
- * This factory method can be used by rule authors to specify one or many configuration values along with an
- * explanation for each value.
- *
- * Note that the [config] property delegate only supports the factory methods when defining [ValuesWithReason].
- */
-fun valuesWithReason(values: List<ValueWithReason>): ValuesWithReason {
-    return ValuesWithReason(values)
+    return ValuesWithReason(values.map { ValueWithReason(it.first, it.second) })
 }
 
 private const val FORMAT_DELIMITER = ':'
