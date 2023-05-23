@@ -1,8 +1,8 @@
 package io.gitlab.arturbosch.detekt.api
 
 import io.gitlab.arturbosch.detekt.api.ValueFormat.GLOB
+import io.gitlab.arturbosch.detekt.api.ValueFormat.LITERAL
 import io.gitlab.arturbosch.detekt.api.ValueFormat.REGEX
-import io.gitlab.arturbosch.detekt.api.ValueFormat.STRING
 
 /**
  * This factory method can be used by rule authors to specify one or many configuration values along with an
@@ -44,18 +44,18 @@ data class ValuesWithReason internal constructor(private val values: List<ValueW
  * @property reason an optional explanation for the configured value
  * @property format the format the value should be interpreted as. Supported values are [string, regex, glob]
  */
-data class ValueWithReason(val value: String, val reason: String? = null, val format: ValueFormat = STRING) {
+data class ValueWithReason(val value: String, val reason: String? = null, val format: ValueFormat = LITERAL) {
     fun getValueAsRegex(): Regex {
         return when (format) {
-            STRING -> "^${Regex.escape(value)}$".toRegex()
+            LITERAL -> value.literalToRegex()
             REGEX -> value.toRegex()
-            GLOB -> value.simplePatternToRegex() // TODO: This is not correct as it does not match the entire string
+            GLOB -> value.globToRegex()
         }
     }
 }
 
 enum class ValueFormat {
-    STRING, REGEX, GLOB;
+    LITERAL, REGEX, GLOB;
 
     companion object {
         fun from(stringOrNull: String?): ValueFormat? {
@@ -68,4 +68,16 @@ enum class ValueFormat {
             }
         }
     }
+}
+
+private fun String.globToRegex(): Regex {
+    return this
+        .replace(".", "\\.")
+        .replace("*", ".*")
+        .replace("?", ".")
+        .let { "^${it}$".toRegex() }
+}
+
+private fun String.literalToRegex(): Regex {
+    return "^${Regex.escape(this)}$".toRegex()
 }

@@ -151,7 +151,7 @@ private fun ConfigAware.getValuesWithReasonOrDefault(
                         ValueWithReason(
                             value = dict["value"] as String,
                             reason = dict["reason"] as String?,
-                            format = ValueFormat.from(dict["format"] as String?) ?: ValueFormat.STRING
+                            format = ValueFormat.from(dict["format"] as String?) ?: ValueFormat.LITERAL
                         )
                     } catch (e: IllegalArgumentException) {
                         throw Config.InvalidConfigurationError(e)
