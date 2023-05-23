@@ -1,9 +1,5 @@
 package io.gitlab.arturbosch.detekt.api
 
-import io.gitlab.arturbosch.detekt.api.ValueFormat.GLOB
-import io.gitlab.arturbosch.detekt.api.ValueFormat.LITERAL
-import io.gitlab.arturbosch.detekt.api.ValueFormat.REGEX
-
 /**
  * This factory method can be used by rule authors to specify one or many configuration values along with an
  * explanation for each value. For example:
@@ -31,53 +27,40 @@ fun valuesWithReason(values: List<ValueWithReason>): ValuesWithReason {
     return ValuesWithReason(values)
 }
 
+private const val FORMAT_DELIMITER = ':'
+
 /**
  * [ValuesWithReason] is essentially the same as [List] of [ValueWithReason]. Due to type erasure we cannot use the
- * list directly. Instances of this type should always created using the [valuesWithReason] factory method.
+ * list directly. Instances of this type should always be created using the [valuesWithReason] factory method.
  */
 data class ValuesWithReason internal constructor(private val values: List<ValueWithReason>) :
     Iterable<ValueWithReason> by values
 
 /**
  * A ValueWithReason represents a single configuration value that may have an explanation as to why it is used.
- * @property value the actual value that is configured
+ * @property value the actual value that is configured. The actual value can be prefixed with 'regex:', 'glob:'
+ * or 'literal:' to indicate how the value should be interpreted. If there is no prefix, it will be interpreted as a literal value.
  * @property reason an optional explanation for the configured value
- * @property format the format the value should be interpreted as. Supported values are [string, regex, glob]
  */
-data class ValueWithReason(val value: String, val reason: String? = null, val format: ValueFormat = LITERAL) {
-    fun getValueAsRegex(): Regex {
-        return when (format) {
-            LITERAL -> value.literalToRegex()
-            REGEX -> value.toRegex()
-            GLOB -> value.globToRegex()
+data class ValueWithReason(val value: String, val reason: String? = null) {
+    private val regex: Regex by lazy {
+        when (value.substringBefore(FORMAT_DELIMITER)) {
+            "regex" -> value.substringAfter(FORMAT_DELIMITER).toRegex()
+            "glob" -> value.substringAfter(FORMAT_DELIMITER).globToRegex()
+            "literal" -> value.substringAfter(FORMAT_DELIMITER).literalToRegex()
+            else -> value.literalToRegex()
         }
     }
-}
 
-enum class ValueFormat {
-    LITERAL, REGEX, GLOB;
-
-    companion object {
-        fun from(stringOrNull: String?): ValueFormat? {
-            if (stringOrNull.isNullOrBlank()) {
-                return null
-            }
-            val value = stringOrNull.lowercase()
-            return requireNotNull(values().first { it.name.lowercase() == value }) {
-                "$value is not a supported value format. Use one of ${values().toList()}."
-            }
-        }
+    fun matches(other: String): Boolean {
+        return regex.matchEntire(other) != null
     }
 }
 
 private fun String.globToRegex(): Regex {
-    return this
-        .replace(".", "\\.")
-        .replace("*", ".*")
-        .replace("?", ".")
-        .let { "^${it}$".toRegex() }
+    return this.simplePatternToRegex()
 }
 
 private fun String.literalToRegex(): Regex {
-    return "^${Regex.escape(this)}$".toRegex()
+    return Regex.escape(this).toRegex()
 }

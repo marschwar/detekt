@@ -1,6 +1,5 @@
 package io.gitlab.arturbosch.detekt.rules.style
 
-import io.gitlab.arturbosch.detekt.api.ValueFormat.GLOB
 import io.gitlab.arturbosch.detekt.api.ValueWithReason
 import io.gitlab.arturbosch.detekt.test.TestConfig
 import io.gitlab.arturbosch.detekt.test.lint
@@ -41,7 +40,7 @@ class ForbiddenImportSpec {
         val config = TestConfig(
             IMPORTS to listOf(
                 ValueWithReason(value = "something.very.Specific").toConfig(),
-                ValueWithReason(value = "org.*", format = GLOB).toConfig()
+                ValueWithReason(value = "glob:org.*").toConfig()
             )
         )
         val findings = ForbiddenImport(config).lint(code)
@@ -53,7 +52,7 @@ class ForbiddenImportSpec {
     fun reportKotlinWildcardImports() {
         val config = TestConfig(
             IMPORTS to listOf(
-                ValueWithReason(value = "kotlin.*", format = GLOB).toConfig()
+                ValueWithReason(value = "glob:kotlin.*").toConfig()
             )
         )
         val findings = ForbiddenImport(config).lint(code)
@@ -70,7 +69,7 @@ class ForbiddenImportSpec {
     fun reportKotlinWildcardImports2() {
         val config = TestConfig(
             IMPORTS to listOf(
-                ValueWithReason("kotlin.*", "I'm just joking!", format = GLOB).toConfig()
+                ValueWithReason("glob:kotlin.*", "I'm just joking!").toConfig()
             )
         )
         val findings = ForbiddenImport(config).lint(code)
@@ -102,7 +101,7 @@ class ForbiddenImportSpec {
         "should report kotlin.SinceKotlin and kotlin.jvm.JvmField when specified via fully qualified names list"
     )
     fun reportMultipleConfiguredImportsInList() {
-        val config = TestConfig(IMPORTS to listOf("kotlin.SinceKotlin", "kotlin.jvm.JvmField"))
+        val config = TestConfig(IMPORTS to listOf("literal:kotlin.SinceKotlin", "kotlin.jvm.JvmField"))
         val findings = ForbiddenImport(config).lint(code)
         assertThat(findings).hasSize(2)
     }
@@ -112,7 +111,7 @@ class ForbiddenImportSpec {
     fun reportsKotlinSinceKotlinWhenSpecifiedWithWildcard() {
         val config = TestConfig(
             IMPORTS to listOf(
-                ValueWithReason(value = "kotlin.Since*", format = GLOB).toConfig()
+                ValueWithReason(value = "glob:kotlin.Since*").toConfig()
             )
         )
         val findings = ForbiddenImport(config).lint(code)
@@ -124,7 +123,7 @@ class ForbiddenImportSpec {
     fun preAndPostWildcard() {
         val config = TestConfig(
             IMPORTS to listOf(
-                ValueWithReason(value = "*.R.*", format = GLOB).toConfig()
+                ValueWithReason(value = "glob:*.R.*").toConfig()
             )
         )
         val findings = ForbiddenImport(config).lint(code)

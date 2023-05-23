@@ -7,6 +7,7 @@ import io.gitlab.arturbosch.detekt.api.Entity
 import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
+import io.gitlab.arturbosch.detekt.api.ValuesWithReason
 import io.gitlab.arturbosch.detekt.api.config
 import io.gitlab.arturbosch.detekt.api.internal.Configuration
 import io.gitlab.arturbosch.detekt.api.valuesWithReason
@@ -34,9 +35,7 @@ class ForbiddenImport(config: Config = Config.empty) : Rule(config) {
     )
 
     @Configuration("imports which should not be used")
-    private val imports: List<Forbidden> by config(valuesWithReason()) { list ->
-        list.map { Forbidden(it.getValueAsRegex(), it.reason) }
-    }
+    private val imports: ValuesWithReason by config(valuesWithReason())
 
     @Configuration("reports imports which match the specified regular expression. For example `net.*R`.")
     private val forbiddenPatterns: Regex by config("", String::toRegex)
@@ -46,7 +45,7 @@ class ForbiddenImport(config: Config = Config.empty) : Rule(config) {
 
         val import = importDirective.importedFqName?.asString().orEmpty()
 
-        val forbidden = imports.find { it.import.matches(import) }
+        val forbidden = imports.find { it.matches(import) }
         val reason = if (forbidden != null) {
             if (forbidden.reason != null) {
                 "The import `$import` has been forbidden: ${forbidden.reason}"
@@ -69,5 +68,3 @@ class ForbiddenImport(config: Config = Config.empty) : Rule(config) {
     private fun containsForbiddenPattern(import: String): Boolean =
         forbiddenPatterns.pattern.isNotEmpty() && forbiddenPatterns.containsMatchIn(import)
 }
-
-private data class Forbidden(val import: Regex, val reason: String?)
