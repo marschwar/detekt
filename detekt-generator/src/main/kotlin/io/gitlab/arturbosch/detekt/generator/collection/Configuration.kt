@@ -1,6 +1,6 @@
 package io.gitlab.arturbosch.detekt.generator.collection
 
-data class Configuration(
+internal data class Configuration(
     val name: String,
     val description: String,
     val defaultValue: DefaultValue,
@@ -8,4 +8,8 @@ data class Configuration(
     val deprecated: String?
 ) {
     fun isDeprecated() = deprecated != null
+}
+
+internal enum class ConfigParamDataType {
+    String, Int, Boolean, StringList, ValuesWithReason
 }

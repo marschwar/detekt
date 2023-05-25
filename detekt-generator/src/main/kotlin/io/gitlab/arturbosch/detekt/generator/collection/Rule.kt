@@ -1,6 +1,6 @@
 package io.gitlab.arturbosch.detekt.generator.collection
 
-data class Rule(
+internal data class Rule(
     val name: String,
     val description: String,
     val nonCompliantCodeExample: String,

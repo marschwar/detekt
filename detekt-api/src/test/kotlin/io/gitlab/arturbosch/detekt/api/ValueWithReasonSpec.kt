@@ -1,6 +1,7 @@
 package io.gitlab.arturbosch.detekt.api
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -84,6 +85,21 @@ class ValueWithReasonSpec {
             assertThat(actual).isFalse
         }
 
+        @ParameterizedTest
+        @ValueSource(
+            strings = [
+                """glob:[a-c].bb.*""",
+                """glob:\w.bb.*""",
+                """glob:*.c{1,5}""",
+            ]
+        )
+        fun `invalid glob pattern`(value: String) {
+            val subject = ValueWithReason(value = value)
+
+            assertThatThrownBy { subject.matches(TEST_STRING) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
+
     }
 
 
@@ -92,16 +108,16 @@ class ValueWithReasonSpec {
         @ParameterizedTest
         @ValueSource(
             strings = [
-                "regex:a\\.bb\\.ccc",
-                "regex:a.bb.ccc",
-                "regex:.\\.bb\\.ccc",
-                "regex:.\\.b.\\.c..",
-                "regex:[a-c]+\\.[a-c]+\\.[a-c]+",
-                "regex:.*\\.[a-c]{3,}",
-                "regex:.*",
-                "regex:a.*",
-                "regex:.*bb.*",
-                "regex:[a-c.]*",
+                """regex:a\.bb\.ccc""",
+                """regex:a.bb.ccc""",
+                """regex:.\.bb\.ccc""",
+                """regex:.\.b.\.c..""",
+                """regex:[a-c]+\.[a-c]+\.[a-c]+""",
+                """regex:.*\.[a-c]{3,}""",
+                """regex:.*""",
+                """regex:a.*""",
+                """regex:.*bb.*""",
+                """regex:[a-c.]*""",
             ]
         )
         fun matches(value: String) {

@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
 import org.jetbrains.kotlin.psi.psiUtil.referenceExpression
 import io.gitlab.arturbosch.detekt.api.internal.Configuration as ConfigAnnotation
 
-data class RuleSetProvider(
+internal data class RuleSetProvider(
     val name: String,
     val description: String,
     val defaultActivationStatus: DefaultActivationStatus,
@@ -30,7 +30,7 @@ data class RuleSetProvider(
     }
 }
 
-class RuleSetProviderCollector : Collector<RuleSetProvider> {
+internal class RuleSetProviderCollector : Collector<RuleSetProvider> {
     override val items = mutableListOf<RuleSetProvider>()
 
     override fun visit(file: KtFile) {

@@ -4,7 +4,7 @@ import io.github.detekt.utils.yaml
 import io.gitlab.arturbosch.detekt.generator.collection.RuleSetPage
 import io.gitlab.arturbosch.detekt.generator.printer.DocumentationPrinter
 
-object ConfigPrinter : DocumentationPrinter<List<RuleSetPage>> {
+internal object ConfigPrinter : DocumentationPrinter<List<RuleSetPage>> {
 
     override fun print(item: List<RuleSetPage>): String {
         return yaml {

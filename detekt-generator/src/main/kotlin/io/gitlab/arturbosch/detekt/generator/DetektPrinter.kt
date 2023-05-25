@@ -12,7 +12,7 @@ import io.gitlab.arturbosch.detekt.generator.printer.defaultconfig.printRuleSetP
 import java.nio.file.Path
 import kotlin.io.path.Path
 
-class DetektPrinter(private val arguments: GeneratorArgs) {
+internal class DetektPrinter(private val arguments: GeneratorArgs) {
 
     private val markdownWriter = MarkdownWriter(System.out)
     private val yamlWriter = YamlWriter(System.out)

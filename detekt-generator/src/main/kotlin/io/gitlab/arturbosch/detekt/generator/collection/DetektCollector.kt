@@ -3,7 +3,7 @@ package io.gitlab.arturbosch.detekt.generator.collection
 import io.gitlab.arturbosch.detekt.generator.collection.exception.InvalidDocumentationException
 import org.jetbrains.kotlin.psi.KtFile
 
-class DetektCollector : Collector<RuleSetPage> {
+internal class DetektCollector : Collector<RuleSetPage> {
 
     private val ruleSetProviderCollector = RuleSetProviderCollector()
     private val ruleCollector = RuleCollector()

@@ -47,10 +47,16 @@ data class ValueWithReason(val value: String, val reason: String? = null) {
     }
 }
 
+private val allowedGlobPattern = """^[.\w?*]*$""".toRegex()
+
 private fun String.globToRegex(): Regex {
+    require(this.matches(allowedGlobPattern)) {
+        "'$this' is not a supported glob pattern. Only word characters, ?, ., and * are allowed. " +
+            "For anything more elaborate use a regular expression instead."
+    }
     return this.simplePatternToRegex()
 }
 
 private fun String.literalToRegex(): Regex {
-    return Regex.escape(this).toRegex()
+    return Regex.fromLiteral(this)
 }

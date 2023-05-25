@@ -6,8 +6,8 @@ import io.github.detekt.utils.list
 import io.github.detekt.utils.listOfMaps
 import io.gitlab.arturbosch.detekt.api.ValuesWithReason
 
-sealed interface DefaultValue {
-
+internal sealed interface DefaultValue {
+    val dataType: ConfigParamDataType
     fun getPlainValue(): String
     fun printAsYaml(name: String, yaml: YamlNode)
     fun printAsMarkdownCode(): String
@@ -23,6 +23,7 @@ sealed interface DefaultValue {
 
 private data class StringDefault(private val defaultValue: String) : DefaultValue {
     private val quoted = "'$defaultValue'"
+    override val dataType: ConfigParamDataType = ConfigParamDataType.String
     override fun printAsYaml(name: String, yaml: YamlNode) {
         yaml.keyValue { name to quoted }
     }
@@ -33,6 +34,7 @@ private data class StringDefault(private val defaultValue: String) : DefaultValu
 }
 
 private data class BooleanDefault(private val defaultValue: Boolean) : DefaultValue {
+    override val dataType: ConfigParamDataType = ConfigParamDataType.Boolean
     override fun getPlainValue(): String = defaultValue.toString()
     override fun printAsYaml(name: String, yaml: YamlNode) {
         yaml.keyValue { name to defaultValue.toString() }
@@ -42,6 +44,7 @@ private data class BooleanDefault(private val defaultValue: Boolean) : DefaultVa
 }
 
 private data class IntegerDefault(private val defaultValue: Int) : DefaultValue {
+    override val dataType: ConfigParamDataType = ConfigParamDataType.Int
     override fun getPlainValue(): String = defaultValue.toString()
     override fun printAsYaml(name: String, yaml: YamlNode) {
         yaml.keyValue { name to defaultValue.toString() }
@@ -52,6 +55,7 @@ private data class IntegerDefault(private val defaultValue: Int) : DefaultValue 
 
 private data class StringListDefault(private val defaultValue: List<String>) : DefaultValue {
     private val quoted: String = defaultValue.map { "'$it'" }.toString()
+    override val dataType: ConfigParamDataType = ConfigParamDataType.StringList
     override fun printAsYaml(name: String, yaml: YamlNode) {
         yaml.list(name, defaultValue)
     }
@@ -63,6 +67,7 @@ private data class StringListDefault(private val defaultValue: List<String>) : D
 }
 
 private data class ValuesWithReasonDefault(private val defaultValue: ValuesWithReason) : DefaultValue {
+    override val dataType: ConfigParamDataType = ConfigParamDataType.ValuesWithReason
     override fun getPlainValue(): String {
         error("there is no plain string representation for values with reason defaults")
     }

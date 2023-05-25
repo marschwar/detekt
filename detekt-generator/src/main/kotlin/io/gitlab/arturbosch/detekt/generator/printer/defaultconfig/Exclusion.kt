@@ -5,13 +5,13 @@ import io.gitlab.arturbosch.detekt.generator.collection.Rule
 /**
  * Holds a list of extra exclusions for rules and rule sets.
  */
-val exclusions = arrayOf(TestExclusions, KotlinScriptExclusions, KotlinScriptAndTestExclusions)
+internal val exclusions = arrayOf(TestExclusions, KotlinScriptExclusions, KotlinScriptAndTestExclusions)
 
 /**
  * Tracks rules and rule sets which needs an extra `excludes: $pattern` property
  * when printing the default detekt config yaml file.
  */
-abstract class Exclusions {
+internal abstract class Exclusions {
 
     abstract val pattern: String
     open val ruleSets: Set<String> = emptySet()

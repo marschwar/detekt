@@ -31,7 +31,7 @@ import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
 import org.jetbrains.kotlin.psi.psiUtil.referenceExpression
 import io.gitlab.arturbosch.detekt.api.internal.Configuration as ConfigAnnotation
 
-class ConfigurationCollector {
+internal class ConfigurationCollector {
 
     private val constantsByName = mutableMapOf<String, DefaultValue>()
     private val properties = mutableListOf<KtProperty>()

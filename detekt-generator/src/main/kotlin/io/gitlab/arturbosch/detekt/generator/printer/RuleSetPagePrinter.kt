@@ -4,7 +4,7 @@ import io.github.detekt.utils.markdown
 import io.github.detekt.utils.paragraph
 import io.gitlab.arturbosch.detekt.generator.collection.RuleSetPage
 
-object RuleSetPagePrinter : DocumentationPrinter<RuleSetPage> {
+internal object RuleSetPagePrinter : DocumentationPrinter<RuleSetPage> {
 
     override fun print(item: RuleSetPage): String {
         return markdown {

@@ -3,7 +3,7 @@ package io.gitlab.arturbosch.detekt.generator.collection
 import org.jetbrains.kotlin.lexer.KtTokens.FALSE_KEYWORD
 import org.jetbrains.kotlin.lexer.KtTokens.TRUE_KEYWORD
 
-fun createDefaultValueIfLiteral(maybeLiteral: String): DefaultValue? = maybeLiteral.toDefaultValueIfLiteral()
+internal fun createDefaultValueIfLiteral(maybeLiteral: String): DefaultValue? = maybeLiteral.toDefaultValueIfLiteral()
 
 private fun String.toDefaultValueIfLiteral(): DefaultValue? {
     return when {

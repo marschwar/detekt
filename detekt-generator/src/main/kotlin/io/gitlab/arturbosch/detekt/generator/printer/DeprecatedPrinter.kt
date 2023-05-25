@@ -4,7 +4,7 @@ import io.gitlab.arturbosch.detekt.generator.collection.Configuration
 import io.gitlab.arturbosch.detekt.generator.collection.Rule
 import io.gitlab.arturbosch.detekt.generator.collection.RuleSetPage
 
-object DeprecatedPrinter : DocumentationPrinter<List<RuleSetPage>> {
+internal object DeprecatedPrinter : DocumentationPrinter<List<RuleSetPage>> {
     @Suppress("NestedBlockDepth")
     override fun print(item: List<RuleSetPage>): String {
         return item.flatMap { ruleSet ->

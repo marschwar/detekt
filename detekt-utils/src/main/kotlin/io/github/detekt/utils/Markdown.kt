@@ -11,10 +11,22 @@ sealed class Markdown(open var content: String = "") {
             "$content\n$value"
         }
     }
+
+    fun appendInline(value: String) {
+        content += value
+    }
 }
 
 data class MarkdownContent(override var content: String = "") : Markdown()
 data class MarkdownList(override var content: String = "") : Markdown()
+
+data class MarkdownTable(override var content: String = "") : Markdown()
+data class MarkdownTableHeader(override var content: String = "") : Markdown() {
+    var columnCount: Int = 0
+}
+
+data class MarkdownTableRow(override var content: String = "") : Markdown()
+data class MarkdownTableCell(override var content: String = "") : Markdown()
 
 inline fun markdown(content: MarkdownContent.() -> Unit): String {
     return MarkdownContent().let { markdown ->
@@ -24,6 +36,7 @@ inline fun markdown(content: MarkdownContent.() -> Unit): String {
 }
 
 inline fun MarkdownContent.markdown(markdown: () -> String): Unit = append(markdown())
+inline fun MarkdownContent.inline(markdown: () -> String): Unit = appendInline(markdown())
 inline fun MarkdownContent.paragraph(content: () -> String): Unit = append("${content()}\n")
 
 inline fun MarkdownContent.bold(content: () -> String) = "**${content()}**"
@@ -41,9 +54,10 @@ inline fun MarkdownContent.orderedList(sectionList: () -> List<String>) {
 }
 
 // Note: Use double-backticks here to be able to render code that itself contains backticks.
-inline fun MarkdownContent.code(code: () -> String) = "``${code()}``"
+inline fun MarkdownContent.code(code: () -> String): String = "``${code()}``"
 
-inline fun MarkdownContent.codeBlock(syntax: String = "kotlin", code: () -> String) = "```$syntax\n${code()}\n```"
+inline fun MarkdownContent.codeBlock(syntax: String = "kotlin", code: () -> String): String =
+    "```$syntax\n${code()}\n```"
 
 fun MarkdownContent.emptyLine(): Unit = append("")
 
@@ -58,3 +72,37 @@ inline fun MarkdownContent.list(listContent: MarkdownList.() -> Unit) {
 
 inline fun MarkdownList.item(item: () -> String): Unit = append("* ${item()}\n")
 inline fun MarkdownList.description(description: () -> String): Unit = append("  ${description()}\n")
+
+inline fun MarkdownContent.table(content: MarkdownTable.() -> Unit) {
+    return MarkdownTable().let { table ->
+        content(table)
+        append(table.content)
+    }
+}
+
+inline fun MarkdownTable.header(content: MarkdownTableHeader.() -> Unit) {
+    return MarkdownTableHeader().let { header ->
+        content(header)
+        append("${header.content}|\n")
+        repeat(header.columnCount) {
+            appendInline("| --- ")
+        }
+        appendInline("|")
+    }
+}
+
+inline fun MarkdownTableHeader.cell(content: () -> String) {
+    columnCount++
+    appendInline("| ${content()} ")
+}
+
+inline fun MarkdownTable.row(content: MarkdownTableRow.() -> Unit) {
+    return MarkdownTableRow().let { row ->
+        content(row)
+        append("${row.content}|")
+    }
+}
+
+inline fun MarkdownTableRow.cell(content: () -> String) {
+    appendInline("| ${content()} ")
+}

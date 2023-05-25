@@ -1,13 +1,15 @@
 package io.gitlab.arturbosch.detekt.generator.printer
 
 import io.github.detekt.utils.bold
+import io.github.detekt.utils.cell
 import io.github.detekt.utils.code
 import io.github.detekt.utils.crossOut
-import io.github.detekt.utils.description
 import io.github.detekt.utils.h4
-import io.github.detekt.utils.item
-import io.github.detekt.utils.list
+import io.github.detekt.utils.header
 import io.github.detekt.utils.markdown
+import io.github.detekt.utils.row
+import io.github.detekt.utils.table
+import io.gitlab.arturbosch.detekt.generator.collection.ConfigParamDataType
 import io.gitlab.arturbosch.detekt.generator.collection.Configuration
 
 internal object RuleConfigurationPrinter : DocumentationPrinter<List<Configuration>> {
@@ -16,26 +18,45 @@ internal object RuleConfigurationPrinter : DocumentationPrinter<List<Configurati
         if (item.isEmpty()) return ""
         return markdown {
             h4 { "Configuration options:" }
-            list {
+            table {
+                header {
+                    cell { "Option" }
+                    cell { "Type" }
+                    cell { "Default Value" }
+                    cell { "Description" }
+                }
                 item.forEach {
-                    val defaultValues = it.defaultValue.printAsMarkdownCode()
-                    val defaultAndroidValues = it.defaultAndroidValue?.printAsMarkdownCode()
-                    val defaultString = if (defaultAndroidValues != null) {
-                        "(default: ${code { defaultValues }}) (android default: ${code { defaultAndroidValues }})"
-                    } else {
-                        "(default: ${code { defaultValues }})"
-                    }
-                    if (it.isDeprecated()) {
-                        item {
-                            crossOut { code { it.name } } + " " + defaultString
+                    row {
+                        cell {
+                            val name = code { it.name }
+                            if (it.isDeprecated()) crossOut { name } else name
                         }
-                        description { "${bold { "Deprecated" }}: ${it.deprecated}" }
-                    } else {
-                        item {
-                            code { it.name } + " " + defaultString
+                        cell {
+                            val dataType = it.defaultValue.dataType
+                            if (dataType == ConfigParamDataType.ValuesWithReason) {
+                                "[${dataType.name}](../introduction/configurations#values--with--reason)"
+                            } else {
+                                dataType.name
+                            }
+                        }
+                        cell {
+                            val defaultValues = it.defaultValue.printAsMarkdownCode()
+                            val defaultAndroidValues = it.defaultAndroidValue?.printAsMarkdownCode()
+                            val defaultString = if (defaultAndroidValues != null) {
+                                "${code { defaultValues }} (android: ${code { defaultAndroidValues }})"
+                            } else {
+                                code { defaultValues }
+                            }
+                            defaultString
+                        }
+                        cell {
+                            if (it.isDeprecated()) {
+                                "${bold { "Deprecated" }}: ${it.deprecated}"
+                            } else {
+                                it.description
+                            }
                         }
                     }
-                    description { it.description }
                 }
             }
         }
