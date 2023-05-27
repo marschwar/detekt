@@ -45,7 +45,7 @@ class ForbiddenImport(config: Config = Config.empty) : Rule(config) {
 
         val import = importDirective.importedFqName?.asString().orEmpty()
 
-        val forbidden = imports.find { it.matches(import) }
+        val forbidden = imports.find { it.matchesEntire(import) }
         val reason = if (forbidden != null) {
             if (forbidden.reason != null) {
                 "The import `$import` has been forbidden: ${forbidden.reason}"

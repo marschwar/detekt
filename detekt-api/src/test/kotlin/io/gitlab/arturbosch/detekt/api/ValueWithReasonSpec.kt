@@ -21,7 +21,7 @@ class ValueWithReasonSpec {
         )
         fun matches(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isTrue
         }
 
@@ -35,7 +35,7 @@ class ValueWithReasonSpec {
         )
         fun `does not match`(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isFalse
         }
 
@@ -61,7 +61,7 @@ class ValueWithReasonSpec {
         )
         fun matches(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isTrue
         }
 
@@ -81,7 +81,7 @@ class ValueWithReasonSpec {
         )
         fun `does not match`(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isFalse
         }
 
@@ -96,7 +96,7 @@ class ValueWithReasonSpec {
         fun `invalid glob pattern`(value: String) {
             val subject = ValueWithReason(value = value)
 
-            assertThatThrownBy { subject.matches(TEST_STRING) }
+            assertThatThrownBy { subject.matchesEntire(TEST_STRING) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
 
@@ -122,7 +122,7 @@ class ValueWithReasonSpec {
         )
         fun matches(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isTrue
         }
 
@@ -138,7 +138,7 @@ class ValueWithReasonSpec {
         )
         fun `does not match`(value: String) {
             val subject = ValueWithReason(value = value)
-            val actual = subject.matches(TEST_STRING)
+            val actual = subject.matchesEntire(TEST_STRING)
             assertThat(actual).isFalse
         }
 

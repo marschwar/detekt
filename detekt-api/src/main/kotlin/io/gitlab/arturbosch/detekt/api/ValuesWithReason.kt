@@ -42,8 +42,12 @@ data class ValueWithReason(val value: String, val reason: String? = null) {
         }
     }
 
-    fun matches(other: String): Boolean {
+    fun matchesEntire(other: String): Boolean {
         return regex.matchEntire(other) != null
+    }
+
+    fun containsMatchIn(other: String): Boolean {
+        return regex.containsMatchIn(other)
     }
 }
 
